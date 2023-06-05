@@ -1,19 +1,19 @@
-#pragma title("3D Text Control  --  Version 1.0 -- (Text3D.C)")
-#pragma subtitle("  3D Text Control Control DLL - Interface Definitions")
+// #pragma title("3D Text Control  --  Version 1.0 -- (Text3D.C)")
+// #pragma subtitle("  3D Text Control Control DLL - Interface Definitions")
 
-#pragma info(noext)
+// #pragma info(noext)
 
 #define INCL_DOS                   /* Include OS/2 DOS Kernal           */
 #define INCL_GPI                   /* Include OS/2 PM GPI Interface     */
 #define INCL_WIN                   /* Include OS/2 PM Windows Interface */
 
-static char *MODID = "@(#)text3d.c:2.03";
+// static char *MODID = "@(#)text3d.c:2.03";
 
 #include <malloc.h>
 #include <os2.h>
 #include <string.h>
 
-#include <pmcx.h>
+#include "pmcx.h"
 
 #include "text3d.h"
 
@@ -42,7 +42,7 @@ static char *MODID = "@(#)text3d.c:2.03";
 /*                                           MPARAM mp1, MPARAM mp2);   */
 
 
-/* Copyright ¸ 1989-1996  Prominare Inc.  All Rights Reserved.          */
+/* Copyright Â¸ 1989-1996  Prominare Inc.  All Rights Reserved.          */
 
 /* -------------------------------------------------------------------- */
 
@@ -92,7 +92,7 @@ static VOID SetDefaultColours(HWND hWnd, PTEXTFIELD ptf);
 static LONG lGetPresParam(HWND hWnd, ULONG ulID1, ULONG ulID2, LONG lDefault);
 
 #define CLENpszClassname 13
-static PSZ pszClassname = "Depressed.3D";
+static PSZ pszClassname = (PSZ) "Depressed.3D";
 
 #define DT_MASK (DT_LEFT | DT_CENTER | DT_RIGHT | DT_TOP | DT_VCENTER | DT_BOTTOM | DT_HALFTONE | DT_MNEMONIC | DT_WORDBREAK)
 
@@ -101,8 +101,8 @@ BOOL    EXPENTRY Text3DQuery(PUSERINFO pControlInfo);
 MRESULT EXPENTRY Text3DWndProc(HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 MRESULT EXPENTRY Text3DStyles(HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 
-#pragma subtitle("   3D Text Control DLL - Control Initialization Function")
-#pragma page ( )
+// #pragma subtitle("   3D Text Control DLL - Control Initialization Function")
+// #pragma page ( )
 
 /* --- Text3DRegister ---------------------------------- [ Public ] --- */
 /*                                                                      */
@@ -140,8 +140,8 @@ BOOL EXPENTRY Text3DRegister(HAB hAB)
 return(WinRegisterClass(hAB, pszClassname, Text3DWndProc, CS_SYNCPAINT | CS_SIZEREDRAW, USER_CWINDOWWORDS));
 
 }
-#pragma subtitle("   3D Text Control DLL - Query Control Information Function")
-#pragma page ( )
+// #pragma subtitle("   3D Text Control DLL - Query Control Information Function")
+// #pragma page ( )
 
 /* --- Text3DQuery ------------------------------------- [ Public ] --- */
 /*                                                                      */
@@ -232,8 +232,8 @@ memcpy(pUserInfo->utDefined[0].szDescription, "3D Text", 8);
                        /* Editor                                        */
 return(TRUE);
 }
-#pragma subtitle("   3D Text Control DLL - Control Window Procedure")
-#pragma page( )
+// #pragma subtitle("   3D Text Control DLL - Control Window Procedure")
+// #pragma page( )
 
 /* --- lGetPresParam ---------------------------------- [ Private } --- */
 /*                                                                      */
@@ -279,8 +279,8 @@ else
            return(lClr);
            }
 }
-#pragma subtitle("   Shadowed Text DLL - Control Window Sizing Procedure")
-#pragma page ( )
+// #pragma subtitle("   Shadowed Text DLL - Control Window Sizing Procedure")
+// #pragma page ( )
 
 /* --- SizeText --------------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -326,8 +326,8 @@ else
    else
        ptf->ptlDraw.y = ptf->rcl.yBottom + fm.lMaxDescender;
 }
-#pragma subtitle("   Shadowed Text DLL - Control Window Sizing Procedure")
-#pragma page ( )
+// #pragma subtitle("   Shadowed Text DLL - Control Window Sizing Procedure")
+// #pragma page ( )
 
 /* --- CalcSize --------------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -390,8 +390,8 @@ else
    ptf->flFormat = (ptf->flStyle & DT_MASK) | DT_ERASERECT;
    }
 }
-#pragma subtitle("   Shadowed Text DLL - Default Colours Procedure")
-#pragma page( )
+// #pragma subtitle("   Shadowed Text DLL - Default Colours Procedure")
+// #pragma page( )
 
 /* --- SetDefaultColours ------------------------------ [ Private ] --- */
 /*                                                                      */
@@ -422,8 +422,8 @@ ptf->lClrText       = lGetPresParam(hWnd, PP_FOREGROUNDCOLOR, PP_FOREGROUNDCOLOR
 ptf->lClrBackground = lGetPresParam(hWnd, PP_BACKGROUNDCOLOR, PP_BACKGROUNDCOLORINDEX, SYSCLR_DIALOGBACKGROUND);
 ptf->lClrBorder     = lGetPresParam(hWnd, PP_BORDERCOLOR,     PP_BORDERCOLORINDEX,     SYSCLR_BUTTONDARK);
 }
-#pragma subtitle("   Shadowed Text DLL - 3D Text Window Procedure")
-#pragma page ( )
+// #pragma subtitle("   Shadowed Text DLL - 3D Text Window Procedure")
+// #pragma page ( )
 
 /* --- hpsDrawText ------------------------------------ [ Private ] --- */
 /*                                                                      */
@@ -495,8 +495,8 @@ GpiPolyLine(hPS, 2L, &ptf->aptl[2]);
 
 return(hPS);
 }
-#pragma subtitle("   Shadowed Text DLL - 3D Text Window Procedure")
-#pragma page ( )
+// #pragma subtitle("   Shadowed Text DLL - 3D Text Window Procedure")
+// #pragma page ( )
 
 /* --- Text3DWndProc ---------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -549,7 +549,7 @@ switch ( msg )
 
        if ( pcrst->pszText )
            {
-           ptf->pszText = (PSZ)malloc((ULONG)(ptf->cText = (LONG)strlen(pcrst->pszText)) + 1UL);
+           ptf->pszText = (PSZ)malloc((ULONG)(ptf->cText = (LONG)strlen((const char *) pcrst->pszText)) + 1UL);
            memcpy(ptf->pszText, pcrst->pszText, (UINT)ptf->cText);
            }
                        /* Set up the colours that will be used within   */
@@ -843,8 +843,8 @@ switch ( msg )
 
 return(0L);
 }
-#pragma subtitle("   3D Text Control DLL - Control Styles Dialogue Procedure")
-#pragma page ( )
+// #pragma subtitle("   3D Text Control DLL - Control Styles Dialogue Procedure")
+// #pragma page ( )
 
 /* --- Text3DStyles ------------------------------------ [ Public ] --- */
 /*                                                                      */

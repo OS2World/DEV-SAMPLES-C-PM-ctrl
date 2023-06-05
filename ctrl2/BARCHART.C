@@ -1,7 +1,7 @@
-#pragma title("Bar Chart Control  --  Version 1.0 -- (BarChart.C)")
-#pragma subtitle("  Bar Chart Control DLL - Interface Definitions")
+// #pragma title("Bar Chart Control  --  Version 1.0 -- (BarChart.C)")
+// #pragma subtitle("  Bar Chart Control DLL - Interface Definitions")
 
-#pragma info(noext)
+// #pragma info(noext)
 
 #define INCL_DOS                   /* Include OS/2 DOS Kernal           */
 #define INCL_GPI                   /* Include OS/2 PM GPI Interface     */
@@ -18,7 +18,7 @@ static char *MODID = "@(#)barchart.c:1.00";
 
 #define MAXTICK 100
 
-#include <pmcx.h>
+#include "pmcx.h"
 
 #include "barchart.h"
 
@@ -47,7 +47,7 @@ static char *MODID = "@(#)barchart.c:1.00";
 /*                                             MPARAM mp1, MPARAM mp2); */
 
 
-/* Copyright ¸ 1989-1996  Prominare Inc.  All Rights Reserved.          */
+/* Copyright Â¸ 1989-1996  Prominare Inc.  All Rights Reserved.          */
 
 /* -------------------------------------------------------------------- */
 
@@ -82,8 +82,8 @@ BOOL    EXPENTRY BarChartQuery(PUSERINFO pUserInfo);
 MRESULT EXPENTRY BarChartWndProc(HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 MRESULT EXPENTRY BarChartStyles(HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 
-#pragma subtitle("   Bar Chart Control DLL - Control Initialization Function")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Initialization Function")
+// #pragma page ( )
 
 /* --- BarChartRegister -------------------------------- [ Public ] --- */
 /*                                                                      */
@@ -118,11 +118,11 @@ BOOL EXPENTRY BarChartRegister(HAB hAB)
                        /* Presentation Manager and return registration  */
                        /* result                                        */
 
-return(WinRegisterClass(hAB, "BarChart", BarChartWndProc, CS_SYNCPAINT | CS_SIZEREDRAW, USER_CWINDOWWORDS));
+return(WinRegisterClass(hAB, (PCSZ) "BarChart", BarChartWndProc, CS_SYNCPAINT | CS_SIZEREDRAW, USER_CWINDOWWORDS));
 
 }
-#pragma subtitle("   Bar Chart Control DLL - Query Control Information Function")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Query Control Information Function")
+// // #pragma page ( )
 
 /* --- BarChartQuery ----------------------------------- [ Public ] --- */
 /*                                                                      */
@@ -189,8 +189,8 @@ memcpy(pUserInfo->utDefined[0].szDescription, "Bar Chart", 10);
                        /* Editor                                        */
 return(TRUE);
 }
-#pragma subtitle("   Bar Chart Control DLL - Set Long Value Function")
-#pragma page( )
+// #pragma subtitle("   Bar Chart Control DLL - Set Long Value Function")
+// #pragma page( )
 
 /* --- SetDlgItemLong --------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -216,10 +216,10 @@ BOOL EXPENTRY SetDlgItemLong(HWND hwndDlg, ULONG idItem, ULONG ulValue, BOOL fSi
 {
 CHAR szNumBuf[32];                 /* Character Buffer                  */
 
-return(WinSetDlgItemText(hwndDlg, idItem, fSigned ? _ltoa((LONG)ulValue, szNumBuf, 10) : _ultoa(ulValue, szNumBuf, 10)));
+return(WinSetDlgItemText(hwndDlg, idItem, fSigned ? _ltoa((LONG)ulValue, (char *) szNumBuf, 10) : _ultoa(ulValue, szNumBuf, 10)));
 }
-#pragma subtitle("   Bar Chart Control DLL - Get Long Value Function")
-#pragma page( )
+// #pragma subtitle("   Bar Chart Control DLL - Get Long Value Function")
+// #pragma page( )
 
 /* --- QueryDlgItemLong ------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -248,7 +248,7 @@ PCHAR pch;                         /* String Character Pointer          */
 
                        /* Try to get the text from the item specified   */
 
-if ( WinQueryDlgItemText(hwndDlg, idItem, 32L, szNumBuf) )
+if ( WinQueryDlgItemText(hwndDlg, idItem, 32L, (PSZ) szNumBuf) )
    {
                        /* Check to see if the item is to be signed or   */
                        /* unsigned, and when unsigned, strip out the    */
@@ -268,8 +268,8 @@ else
    return(FALSE);
    }
 }
-#pragma subtitle("   Bar Chart Control DLL - Control Data Decoding Procedure")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Data Decoding Procedure")
+// #pragma page ( )
 
 /* --- InitNotebookPageData --------------------------- [ Private ] --- */
 /*                                                                      */
@@ -339,16 +339,16 @@ if ( pbccd->cItems )
        WinSendDlgItemMsg(hWnd, MLE_VALUES, MLM_IMPORT, MPFROMP(&iptData1), MPFROMLONG(cLen));
 
        WinSendDlgItemMsg(hWnd, MLE_HORZSCALE, MLM_SETIMPORTEXPORT, MPFROMP(szBuffer),
-                         MPFROMLONG(cLen = (INT)strlen(strcat(strcpy(szBuffer, &pb[n]), "\n"))));
+                         MPFROMLONG(cLen = (INT)strlen(strcat(strcpy(szBuffer, (const char * restrict) &pb[n]), "\n"))));
        WinSendDlgItemMsg(hWnd, MLE_HORZSCALE, MLM_IMPORT, MPFROMP(&iptData2), MPFROMLONG(cLen));
-       n += (INT)strlen(&pb[n]) + 1;
+       n += (INT)strlen( (const char *) &pb[n]) + 1;
        }
    WinSendDlgItemMsg(hWnd, MLE_VALUES,  MLM_ENABLEREFRESH, 0L, 0L);
    WinSendDlgItemMsg(hWnd, MLE_HORZSCALE,  MLM_ENABLEREFRESH, 0L, 0L);
    }
 }
-#pragma subtitle("   Bar Chart Control DLL - Control Data Save Procedure")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Data Save Procedure")
+// #pragma page ( )
 
 /* --- GetBarChartData -------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -478,7 +478,7 @@ if ( cScales != cItems )
 
 if ( !(pust->pbCtlData = (PBYTE)pust->pfnRealloc(pust->pbCtlData, cHorzTitle + cVertTitle + cItems * sizeof(ULONG) +
                                                  n + sizeof(BARCHARTCDATA) - 1L)) )
-   WinMessageBox(HWND_DESKTOP, hWnd, "Memory error on reallocating control data!", "Bar Chart Control", 0UL, MB_OK | MB_ICONEXCLAMATION);
+   WinMessageBox(HWND_DESKTOP, hWnd, (PCSZ) "Memory error on reallocating control data!", (PCSZ) "Bar Chart Control", 0UL, MB_OK | MB_ICONEXCLAMATION);
 else
    {
                        /* Save the number of bytes within the control   */
@@ -515,8 +515,8 @@ else
 free(pchScale);
 free(pulValues);
 }
-#pragma subtitle("   Bar Chart Control DLL - Control Styles Dialogue Procedure")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Styles Dialogue Procedure")
+// #pragma page ( )
 
 /* --- BarChartStyles ---------------------------------- [ Public ] --- */
 /*                                                                      */
@@ -684,8 +684,8 @@ switch ( msg )
 return(0L);
 
 }
-#pragma subtitle("   Bar Chart Control DLL - Control Window Procedure")
-#pragma page( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Window Procedure")
+// #pragma page( )
 
 /* --- lGetPresParam ---------------------------------- [ Private } --- */
 /*                                                                      */
@@ -730,8 +730,8 @@ else
            return(lClr);
            }
 }
-#pragma subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
+// #pragma page ( )
 
 /* --- ulNiceScale ------------------------------------ [ Private ] --- */
 /*                                                                      */
@@ -772,8 +772,8 @@ dRange = pow(10.0, dMagnitude);
 return((ULONG)((ceil(dMax / dRange)) * dRange));
 
 }
-#pragma subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
+// #pragma page ( )
 
 /* --- CalcSize --------------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -956,8 +956,8 @@ if ( pbc->cItems )
        }
    }
 }
-#pragma subtitle("   Bar Chart Control DLL - CTLDATA Decoding Procedure")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - CTLDATA Decoding Procedure")
+// #pragma page ( )
 
 /* --- DecodeCTLDATA ---------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -1006,14 +1006,14 @@ if ( (pbc->cItems = pbccd->cItems) != 0UL )
    for ( i = n = 0; i < pbccd->cItems; i++ )
        {
        pbc->pbci[i].ulValue = pulValues[i];
-       pbc->pbci[i].pszLabel = (PSZ)malloc(pbc->pbci[i].cLabel = strlen(&pb[n]) + 1);
+       pbc->pbci[i].pszLabel = (PSZ)malloc(pbc->pbci[i].cLabel = strlen( (const char *) &pb[n]) + 1);
        memcpy(pbc->pbci[i].pszLabel, &pb[n], pbc->pbci[i].cLabel);
        n += pbc->pbci[i].cLabel;
        }
    }
 }
-#pragma subtitle("   Bar Chart Control DLL - Image Font Selection Function")
-#pragma page( )
+// #pragma subtitle("   Bar Chart Control DLL - Image Font Selection Function")
+// #pragma page( )
 
 /* --- lSelectFont ------------------------------------ [ Private ] --- */
 /*                                                                      */
@@ -1054,7 +1054,7 @@ DevQueryCaps(hDC, CAPS_VERTICAL_FONT_RES,   1L, &lYDeviceRes);
                        /* metrics for the different font sizes and      */
                        /* devices of the font                           */
 
-pfm = (PFONTMETRICS)malloc(sizeof(FONTMETRICS) * (cFonts = GpiQueryFonts(hPS, QF_PUBLIC, pszFacename,
+pfm = (PFONTMETRICS)malloc(sizeof(FONTMETRICS) * (cFonts = GpiQueryFonts(hPS, QF_PUBLIC, (PCSZ) pszFacename,
                                                                          &lFontsTotal, sizeof(FONTMETRICS), (PFONTMETRICS)NULL)));
 
                        /* Make a pointer for the memory allocated for   */
@@ -1062,7 +1062,7 @@ pfm = (PFONTMETRICS)malloc(sizeof(FONTMETRICS) * (cFonts = GpiQueryFonts(hPS, QF
                        /* the number of fonts for the face name         */
                        /* provided                                      */
 
-GpiQueryFonts(hPS, QF_PUBLIC, pszFacename, &cFonts, sizeof(FONTMETRICS), pfm);
+GpiQueryFonts(hPS, QF_PUBLIC, (PCSZ) pszFacename, &cFonts, sizeof(FONTMETRICS), pfm);
 
                        /* Release the presentation space acquired to    */
                        /* determine the screen height and to get the    */
@@ -1095,8 +1095,8 @@ DosFreeMem(pfm);
                        /* application                                   */
 return(lMatch);
 }
-#pragma subtitle("   Bar Chart Control DLL - Control Window Procedure")
-#pragma page ( )
+// #pragma subtitle("   Bar Chart Control DLL - Control Window Procedure")
+// #pragma page ( )
 
 /* --- BarChartWndProc -------------------------------- [ Private ] --- */
 /*                                                                      */
@@ -1202,7 +1202,7 @@ switch ( msg )
                        /* Get the title text if present                 */
 
        if ( pcrst->pszText )
-           strcpy(pbc->pszTitleText = (PSZ)malloc(pbc->cTitleText = strlen(pcrst->pszText) + 1), pcrst->pszText);
+           strcpy(pbc->pszTitleText = (PSZ)malloc(pbc->cTitleText = strlen( (const char *) pcrst->pszText) + 1), pcrst->pszText);
 
                        /* Initialize the size of the control            */
        rcl.xLeft   =
@@ -1581,7 +1581,7 @@ switch ( msg )
                        /* Get the horizontal scale title text if        */
                        /* present                                       */
 
-       if ( (pbc->cVertText = strlen((PSZ)PVOIDFROMMP(mp1))) != 0UL )
+       if ( (pbc->cVertText = strlen((const char *)PVOIDFROMMP(mp1))) != 0UL )
            {
            ++pbc->cVertText;
            memcpy(pbc->pszVertText = (PSZ)malloc(pbc->cVertText), (PSZ)PVOIDFROMMP(mp1), pbc->cVertText);
@@ -1605,7 +1605,7 @@ switch ( msg )
                        /* Get the horizontal scale title text if        */
                        /* present                                       */
 
-       if ( (pbc->cHorzText = strlen((PSZ)PVOIDFROMMP(mp1))) != 0UL )
+       if ( (pbc->cHorzText = strlen((const char *)PVOIDFROMMP(mp1))) != 0UL )
            {
            ++pbc->cHorzText;
            memcpy(pbc->pszHorzText = (PSZ)malloc(pbc->cHorzText), (PSZ)PVOIDFROMMP(mp1), pbc->cHorzText);
@@ -1633,9 +1633,9 @@ switch ( msg )
        for ( i = n = 0; i < pbc->cItems; i++ )
            {
            if ( pbc->pbci[i].cLabel )
-               pbc->pbci[i].pszLabel = (PSZ)realloc(pbc->pbci[i].pszLabel, pbc->pbci[i].cLabel = strlen(&pb[n]) + 1);
+               pbc->pbci[i].pszLabel = (PSZ)realloc(pbc->pbci[i].pszLabel, pbc->pbci[i].cLabel = strlen((const char *) &pb[n]) + 1);
            else
-               pbc->pbci[i].pszLabel = (PSZ)malloc(pbc->pbci[i].cLabel = strlen(&pb[n]) + 1);
+               pbc->pbci[i].pszLabel = (PSZ)malloc(pbc->pbci[i].cLabel = strlen((const char *)&pb[n]) + 1);
            memcpy(pbc->pbci[i].pszLabel, &pb[n], pbc->pbci[i].cLabel);
            n += pbc->pbci[i].cLabel;
            }

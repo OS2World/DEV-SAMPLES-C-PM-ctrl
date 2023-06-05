@@ -1,7 +1,7 @@
-#pragma	title("Bar Chart Control  --  Version 1.0 -- (BarChart.C)")
-#pragma	subtitle("  Bar Chart Control DLL - Interface Definitions")
+// #pragma	title("Bar Chart Control  --  Version 1.0 -- (BarChart.C)")
+// #pragma	subtitle("  Bar Chart Control DLL - Interface Definitions")
 
-#pragma	info(noext)
+// #pragma	info(noext)
 
 #define	INCL_DOS		   /* Include OS/2 DOS Kernal		*/
 #define	INCL_GPI		   /* Include OS/2 PM GPI Interface	*/
@@ -18,7 +18,7 @@ static char *MODID = "@(#)barchart.c:1.00";
 
 #define	MAXTICK	100
 
-#include <pmcx.h>
+#include "pmcx.h"
 
 #include "barchart.h"
 
@@ -89,8 +89,8 @@ static char *MODID = "@(#)barchart.c:1.00";
 /************************************************************************/
 /************************************************************************/
 
-/* Copyright ¸ International Business Machines Corp., 1995.		*/
-/* Copyright ¸ 1995  Prominare Inc.  All Rights	Reserved.		*/
+/* Copyright Â¸ International Business Machines Corp., 1995.		*/
+/* Copyright Â¸ 1995  Prominare Inc.  All Rights	Reserved.		*/
 
 /* --- Module Data Definitions ----------------------------------------	*/
 
@@ -116,8 +116,8 @@ BOOL	EXPENTRY BarChartQuery(PUSERINFO pUserInfo);
 MRESULT	EXPENTRY BarChartWndProc(HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 MRESULT	EXPENTRY BarChartStyles(HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 
-#pragma	subtitle("   Bar Chart Control DLL - Control Initialization Function")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Initialization Function")
+// #pragma	page ( )
 
 /* --- BarChartRegister	-------------------------------- [ Public ] ---	*/
 /*									*/
@@ -155,8 +155,8 @@ BOOL EXPENTRY BarChartRegister(HAB hAB)
 return(WinRegisterClass(hAB, "BarChart", BarChartWndProc, CS_SYNCPAINT | CS_SIZEREDRAW,	USER_CWINDOWWORDS));
 
 }
-#pragma	subtitle("   Bar Chart Control DLL - Query Control Information Function")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Query Control Information Function")
+// #pragma	page ( )
 
 /* --- BarChartQuery ----------------------------------- [ Public ] ---	*/
 /*									*/
@@ -223,8 +223,8 @@ memcpy(pUserInfo->utDefined[0].szDescription, "Bar Chart", 10);
 		       /* Editor					*/
 return(TRUE);
 }
-#pragma	subtitle("   Bar Chart Control DLL - Set Long Value Function")
-#pragma	page( )
+// #pragma	subtitle("   Bar Chart Control DLL - Set Long Value Function")
+// #pragma	page( )
 
 /* --- SetDlgItemLong ---------------------------------	[ Private ] ---	*/
 /*									*/
@@ -252,8 +252,8 @@ CHAR szNumBuf[32];		   /* Character	Buffer			*/
 
 return(WinSetDlgItemText(hwndDlg, idItem, fSigned ? _ltoa((LONG)ulValue, szNumBuf, 10) : _ultoa(ulValue, szNumBuf, 10)));
 }
-#pragma	subtitle("   Bar Chart Control DLL - Get Long Value Function")
-#pragma	page( )
+// #pragma	subtitle("   Bar Chart Control DLL - Get Long Value Function")
+// #pragma	page( )
 
 /* --- QueryDlgItemLong	-------------------------------	[ Private ] ---	*/
 /*									*/
@@ -302,8 +302,8 @@ else
    return(FALSE);
    }
 }
-#pragma	subtitle("   Bar Chart Control DLL - Control Data Decoding Procedure")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Data Decoding Procedure")
+// #pragma	page ( )
 
 /* --- InitNotebookPageData ---------------------------	[ Private ] ---	*/
 /*									*/
@@ -381,8 +381,8 @@ if ( pbccd->cItems )
    WinSendDlgItemMsg(hWnd, MLE_HORZSCALE,  MLM_ENABLEREFRESH, 0L, 0L);
    }
 }
-#pragma	subtitle("   Bar Chart Control DLL - Control Data Save Procedure")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Data Save Procedure")
+// #pragma	page ( )
 
 /* --- GetBarChartData --------------------------------	[ Private ] ---	*/
 /*									*/
@@ -549,8 +549,8 @@ else
 free(pchScale);
 free(pulValues);
 }
-#pragma	subtitle("   Bar Chart Control DLL - Control Styles Dialogue Procedure")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Styles Dialogue Procedure")
+// #pragma	page ( )
 
 /* --- BarChartStyles ---------------------------------- [ Public ] ---	*/
 /*									*/
@@ -718,8 +718,8 @@ switch ( msg )
 return(0L);
 
 }
-#pragma	subtitle("   Bar Chart Control DLL - Control Window Procedure")
-#pragma	page( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Window Procedure")
+// #pragma	page( )
 
 /* --- lGetPresParam ----------------------------------	[ Private } ---	*/
 /*									*/
@@ -764,8 +764,8 @@ else
 	   return(lClr);
 	   }
 }
-#pragma	subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
+// #pragma	page ( )
 
 /* --- ulNiceScale ------------------------------------	[ Private ] ---	*/
 /*									*/
@@ -806,8 +806,8 @@ dRange = pow(10.0, dMagnitude);
 return((ULONG)((ceil(dMax / dRange)) * dRange));
 
 }
-#pragma	subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Window Sizing Procedure")
+// #pragma	page ( )
 
 /* --- CalcSize	---------------------------------------	[ Private ] ---	*/
 /*									*/
@@ -995,8 +995,8 @@ if ( pbc->cItems )
        }
    }
 }
-#pragma	subtitle("   Bar Chart Control DLL - CTLDATA Decoding Procedure")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - CTLDATA Decoding Procedure")
+// #pragma	page ( )
 
 /* --- DecodeCTLDATA ----------------------------------	[ Private ] ---	*/
 /*									*/
@@ -1051,8 +1051,8 @@ if ( (pbc->cItems = pbccd->cItems) != 0UL )
        }
    }
 }
-#pragma	subtitle("   Bar Chart Control DLL - Image Font Selection Function")
-#pragma	page( )
+// #pragma	subtitle("   Bar Chart Control DLL - Image Font Selection Function")
+// #pragma	page( )
 
 /* --- lSelectFont ------------------------------------	[ Private ] ---	*/
 /*									*/
@@ -1134,8 +1134,8 @@ DosFreeMem(pfm);
 		       /* application					*/
 return(lMatch);
 }
-#pragma	subtitle("   Bar Chart Control DLL - Control Window Procedure")
-#pragma	page ( )
+// #pragma	subtitle("   Bar Chart Control DLL - Control Window Procedure")
+// #pragma	page ( )
 
 /* --- BarChartWndProc --------------------------------	[ Private ] ---	*/
 /*									*/
